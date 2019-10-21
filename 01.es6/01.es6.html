@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+    
+
+
+<script>
+var a;
+let b;
+const c = []; // const는 상수. 선언과 동시에 할당을 해야한다.
+const d = {};
+
+var a = 10;
+function test(){
+    var a = 20;
+}
+
+for(let i=0;i<10;i++){
+    // let은 지역변수. 함수안에서 변수를 사용할때 주로 사용한다.
+}
+// console.log(i); // error
+
+
+
+// 함수 선언문
+test2(); // 함수 선언문으로 만들어서 로그 출력 가능
+function test2(){
+    console.log("hi");
+}
+
+// 함수 표현식
+// test3(); // error
+const test3=function(){
+    console.log("hello");
+}
+
+// ES6 Arrow function
+const test4=(str)=>{
+    console.log(str);
+}
+test4("str");
+
+// 리턴값이 있는 한줄의 함수는 아래와 같이 축약 가능하다.
+const test5 = str => str+str;
+console.log(test5("CD"));
+
+const test5_1 = () => 10;
+console.log(test5_1());
+
+const test6 = function(str){
+    return str+str;
+}
+console.log(test6("EF"));
+
+// 자바스크립트 객체
+// JSON
+// ES5
+var human = {
+    name:"홍길동",
+    age:25,
+    favorite:["A", "B", "C"],
+    addr:{
+        post:10000,
+        addr1:"서울시 송파구",
+        addr2:"오륜동 326"
+    },
+    run:() =>{ 
+        console.log(this.name+"이 뛴다."); // 선언문이 아닌 표현식이라서 this.name의 값이 없는 상태
+    },
+    run2:function(){
+        console.log(this.name+"이 뛴다."); 
+    }
+};
+// console.log("!!!"+human.name);
+human.name="홍길순";
+// console.log("!!!"+human.name);
+
+human.run();
+human.run2();
+
+// IIEF 즉시실행 함수
+(function sample(){
+    console.log("HI!!!");
+    
+})(); // 실행된다.
+
+(function sample(){
+    console.log("HELLO!!!");
+    
+}()); // 실행된다.
+
+
+// ES5 객체(짝퉁 객체?)
+var Sample2=(function(){
+    // 생성자. 객체명과 똑같이 쓴다.
+    this.firstName;
+    this.lastName;
+    function Sample2(firstName, lastName){
+        this.firstName=firstName;
+        this.lastName=lastName;
+    }
+    // 메서드
+    Sample2.prototype.fullName=function(){
+        console.log(this.firstName+this.lastName);  
+    }
+    return Sample2;
+})();
+
+var hong=new Sample2("홍", "길동");
+var hong2=new Sample2("홍", "길순");
+
+hong.fullName();
+hong2.fullName();
+
+// ES6 객체
+// class와 constructor선언이 가능하지만
+// 내부적으로는 ES5의 객체와 동일하다.
+// IE에서는 error
+class Sample3{
+    constructor(age, name){
+        this.age=age;
+        this.name=name;
+    }
+    speak(){
+        // console.log(this.name+"는 "+this.age+"살입니다."); 
+        console.log(`${this.name}은(는) ${this.age}살 입니다.`);
+    }
+}
+
+const hong5=new Sample3(27, "백인재");
+hong5.speak();
+
+var html=`
+<ul>
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+</ul>
+`;
+
+// document.querySelector("#root").innerHTML=html;
+
+
+
+
+</script>
+
+
+
+</body>
+</html>

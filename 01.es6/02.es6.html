@@ -1,0 +1,88 @@
+<script>
+    const log=console.log;
+// 반복문 ES6
+const arr=[];
+arr.push("A");
+arr.push("B");
+arr.push("C");
+
+// chrome 콘솔 창 파란색은 number 타입, 검은색은 string 타입
+for(var i=0;i<arr.length;i++){
+    log(i);
+}
+// index 출력
+for(var i in arr){
+    log(i);
+}
+// ES6 value 출력
+for(var v of arr){
+    log(v);
+}
+
+arr.forEach(function(v, i/*, a*/){
+    // log(v, i, a);
+    console.log(v, i);
+    
+});
+
+log("--------------------------------------")
+
+var arr2=[1, 2, 3, 4, 5];
+var arr3=arr2.map(function(v){
+    return v*10;
+});
+log(arr2);
+log(arr3);
+
+var arr4=arr2.filter(function(v){
+    return v <= 3;
+});
+log(arr4);
+
+var result={
+    students:[
+        {
+            name:"홍길동",
+            kor:90,
+            eng:80,
+            math:95
+        },
+        {
+            name:"홍길순",
+            kor:100,
+            eng:60,
+            math:95
+        },
+        {
+            name:"홍길만",
+            kor:75,
+            eng:60,
+            math:100
+        }
+    ]
+}
+
+var korOver=result.students.filter(function(v){
+    return v.kor>=80; // 밸류의 kor이 80점 이상인 사람
+});
+log(korOver);
+
+log(Object.entries(result.students[0]));
+
+for(var[k, v] of Object.entries(result.students)){
+    log(k, v);
+}
+for(var[k, v] of Object.entries(result.students[0])){
+    log(k, v);
+}
+log("---------------")
+for(var k of Object.keys(result.students[0])){
+    log(k, v);
+}
+log("---------------")
+for(var v of Object.values(result.students[0])){
+    log(k, v);
+}
+
+
+</script>
