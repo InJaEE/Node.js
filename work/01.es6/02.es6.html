@@ -10,15 +10,20 @@ arr.push("C");
 for(var i=0;i<arr.length;i++){
     log(i);
 }
+console.log("for in");
 // index 출력
 for(var i in arr){
-    log(i);
+    log(arr[i], i);
 }
+
+console.log("for of");
+
 // ES6 value 출력
 for(var v of arr){
     log(v);
 }
 
+console.log("forEach");
 arr.forEach(function(v, i/*, a*/){
     // log(v, i, a);
     console.log(v, i);
@@ -32,7 +37,7 @@ var arr3=arr2.map(function(v){
     return v*10;
 });
 log(arr2);
-log(arr3);
+log("//////"+arr3);
 
 var arr4=arr2.filter(function(v){
     return v <= 3;
@@ -66,23 +71,24 @@ var korOver=result.students.filter(function(v){
     return v.kor>=80; // 밸류의 kor이 80점 이상인 사람
 });
 log(korOver);
-
+console.log("**********************");
 log(Object.entries(result.students[0]));
+console.log("**********************");
 
 for(var[k, v] of Object.entries(result.students)){
     log(k, v);
 }
+log("---------------")
 for(var[k, v] of Object.entries(result.students[0])){
     log(k, v);
 }
 log("---------------")
-for(var k of Object.keys(result.students[0])){
-    log(k, v);
+for(var k of Object.keys(result.students[2])){
+    log(k,v);
 }
 log("---------------")
 for(var v of Object.values(result.students[0])){
     log(k, v);
 }
-
 
 </script>
