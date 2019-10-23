@@ -2,6 +2,9 @@ const zp = n=>n<10?"0"+n:n;
 
 const isoDate = (d)=>{
     if(!d) d = new Date();
+    // console.log(d)
+    // console.log(!d);
+    
     var year = d.getFullYear();
     var month = zp(d.getMonth()+1);
     var day = zp(d.getDate());
