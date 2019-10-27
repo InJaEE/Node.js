@@ -1,0 +1,21 @@
+extends ./layout.pug
+block title
+    // 타이틀입니다. HTML주석
+    //- 타이틀입니다2. PUG 주석
+    .container.mt-3
+        .jumbotron
+            h1=`${name} HELLO PUG`
+block content
+    div.container
+        table.table.table-bordered#user-tbl
+            thead
+                tr
+                    th 번호
+                    th 이름
+                    th 나이
+            tbody
+                each item in users
+                    tr
+                        td=item.id
+                        td=item.name
+                        td=item.age
