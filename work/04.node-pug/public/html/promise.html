@@ -1,0 +1,38 @@
+<script>
+    const users = [
+        {id: 1, name: "홍길동", age:27},
+        {id: 2, name: "홍길만", age:29},
+        {id: 3, name: "홍길순", age:23}
+    ];
+
+    const findUser = (name) => {
+        return new Promise((resolve, reject)=>{
+            let result = users.filter(item=>item.name==name);
+            result.length > 0 ? resolve(null, result):reject(500);
+        });
+    }
+
+    const findAge = (id) => {
+        return new Promise((resolve, reject)=>{
+            users.forEach((item, key) =>{
+                item.id == id ? resolve(item.age):reject(500);
+            })
+        });
+    }
+
+    const findUserCb = (result) => {
+        console.log(result);
+        findAge(result[0].id);
+    }
+
+    const findAgeCb = (result) => {
+        console.log(result);
+    }
+
+    const errorCb = (err) => {
+        console.log(err);
+    }
+
+    findUser("홍길동").then(findUserCb).then().catch(errorCb);
+
+</script>    
