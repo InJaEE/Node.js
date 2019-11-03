@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+html(lang="ko")
+    include ../inc/header.pug
+    body
+        include ../inc/navi.pug
+        .container
+            //- mt, md, ml, mr, mx, my, pt, pb, pl, pr, px, py
+            //- bootstrap: 기본폰트:16px=1rem / -1(0.25rem, 4px), -2(0.5rem, 8px)
+            //- -3(1rem, 16px), -4(1.5rem, 24px), -5(2rem, 32px), -auto(mx-auto=>margin:0 auto)
+            div.jumbotron.my-3
+                h1= tit
+                    span= "-"
+                    small= subTit
+            table.table.table-bordered.table-horver(style="text-align:center;")
+                thead.thead-dark
+                    tr
+                        th 번호
+                        th 이름
+                        th 나이
+                        th 가입일
+                        th 관리
+                    tbody
+                        each item in datas
+                            tr
+                                td= item["id"]
+                                td= item["userName"]
+                                td= item["age"]
+                                td= item["wdate"]
+                                td
+                                    button.btn.btn-danger.btm-sm(onclick=`location.href='/user/rm/${item.id}'`) 삭제
+                    
+                    

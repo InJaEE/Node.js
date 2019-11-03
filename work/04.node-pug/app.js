@@ -5,6 +5,28 @@ app.listen(port, ()=>{
     console.log(`http://127.0.0.1:${port}`);
 });
 
+// mysql.js
+const mysql = require('mysql');
+// createPool은 동시접속자 처리가 가능하다.
+const pool = mysql.createPool({
+    host : "localhost",
+    port : "3307",
+    user : "test",
+    password : "in11202",
+    database : "node",
+    connectionLimit : 10
+});
+/* var conn = mysql.createConnection({
+    host     : 'localhost',
+    user     : 'test',
+    port     : "3307",
+    password : 'in11202',
+    database : 'node'
+}); */
+
+const bodyParser = require("body-parser");
+app.use(bodyParser.urlencoded({extended: false}));
+
 // 정적 루트 설정
 app.use("/", express.static("./public"));
 
@@ -63,4 +85,79 @@ app.get(["/date", "/date/:type"], (req, res)=>{
             // res.send(new Date().toString);
             break;
     }
-})
+});
+
+app.get("/insert-in", insertIn);
+function insertIn(req, res){
+    const vals = {tit:"데이터 입력", subTit:"회원가입"};
+    res.render("sql/insert", vals);
+}
+
+
+app.post("/insert/:type", insertFn);
+function insertFn(req, res){
+    const type = req.params.type;
+    switch(type){
+        // 기본적인 mysql 처리 - createConnection()
+        case "save":
+
+            conn.connect();
+
+            var userName = req.body.userName;
+            var age = req.body.age;
+            var wdate = "2019-11-03- 11:55:55";
+
+            // var sql = `INSERT INTO users SET userName="${userName}", age="${age}", wdate="${wdate}"`;
+            var sql = "INSERT INTO users SET userName=?, age=?, wdate=?";
+            var sqlVals = [userName, age, wdate];
+ 
+            // conn.query(sql, function (error, results, fields) {
+            conn.query(sql, sqlVals, function (error, results, fields) {
+            if (error) {
+                console.log(error);             
+                res.send(error);
+            }
+            else {
+                console.log('The solution is: ', results);
+                if(results.affectedRows == 1){
+                    res.send("complete");
+                } else{
+                    res.send("fail");
+                }
+            }
+            });
+            conn.end();
+ 
+            break;
+
+        // 기본적인 mysql 처리 - createPool()
+        case "save-pool":
+
+            var userName = req.body.userName;
+            var age = req.body.age;
+            var wdate = "2019-11-03- 11:55:55";
+
+            // var sql = `INSERT INTO users SET userName="${userName}", age="${age}", wdate="${wdate}"`;
+            var sql = "INSERT INTO users SET userName=?, age=?, wdate=?";
+            var sqlVals = [userName, age, wdate];
+
+            pool.getConnection((err, connect)=>{
+                if(err) console.log(err);
+                else{
+                    connect.query(sql, sqlVals, (err, results, field)=>{
+                        if(err) console.log(err);
+                        else {
+                            res.json(results);
+                        }
+                        connect.release();
+                    });                    
+                }
+            });
+
+            break;
+
+        default:
+            res.send("취소");
+            break;
+    }
+}
