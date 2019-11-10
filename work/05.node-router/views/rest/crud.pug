@@ -1,0 +1,32 @@
+extends ../layout/rest-layout.pug
+block titleBar
+    .jumbotron.my-3
+        h1 RESTful TEST
+block content
+    .border.my-3.p-3
+        h2 Create
+        form.form-inline(action='/rest', method='post')
+            input.form-control(type='text', name='username')
+            button.btn.btn-primary 전송
+    .border.my-3.p-3
+        h2 Update
+        form.form-inline(action='/rest', method='post')
+            input(type='hidden', name='_method', value='put')
+            input(type='hidden', id='id', name='id', value='')
+            input.form-control(type='text', id='username', name='username')
+            button.btn.btn-primary 전송
+    form#rmForm(method="post" action="/rest")
+        input(type="hidden", name="_method" value="delete")
+        input(type="hidden", name="id", id="rm-id" value="")
+    .border.my-3.p-3
+        h2 Read
+        div.border.d-flex.flex-wrap
+            each item in datas
+                div.p-2.d-flex.align-items-center.rounded.border.m-3
+                    span.mr-2.user-id= item.id
+                    span.mr-2.user-name= item.username
+                    div
+                        button.btn.btn-success.btn-sm(onclick='chgData(this);') 수정
+                        button.btn.btn-danger.btn-sm(onclick='rmData(this);') 삭제
+block script
+    script(src="/js/script.js")

@@ -17,4 +17,10 @@ SELECT * FROM users;
 DELETE FROM users WHERE id=2;
 DELETE FROM users WHERE id>200;
 DELETE FROM users WHERE id>200 AND userName like '%길동%';
+
+```
+### 4. 데이터 수정하기
+```sql
+UPDATE users SET userName='홍길동', age='22' WHERE id=3;
+
 ```

@@ -57,6 +57,21 @@ function userGet(req, res){
             })();
             break;    
 
+        case "up":
+            (async ()=>{
+                let sql = 'SELECT * FROM users WHERE id=?'
+                let sqlVals = [req.params.id];
+                let result = await sqlExec(sql, sqlVals);
+                let vals = {
+                    title:"데이터 수정",
+                    subTit:"회원 수정",
+                    datas: result[0][0]
+                }
+                // res.render("sql/update", {data:result[0][0]});
+                res.render("sql/update", vals);
+                // res.json({data:result[0]})
+            })();
+
         default:
             break;
     }
@@ -64,6 +79,35 @@ function userGet(req, res){
 
 // Router Callback - POST
 function userPost(req, res){
+    let type = req.params.type;
+    let userName = req.body.userName;
+    let age = req.body.age;
+    let id = req.body.id;
+    let sql = '';
+    let sqlVals = [];
+    let result = null;
+    switch(type){
+
+        case "save":
+            (async()=>{
+                sql = "INSERT INTO users SET userName=?, age=?, wdate=?";
+                sqlVals = [userName, age, isoDate(new Date())]
+                result = await sqlExec(sql, sqlVals);  
+                res.send(alertLoc("데이터가 저장되었습니다.", "/user/li"));
+            })(); // 즉시 실행함수로 async/await 사용
+
+            break;
+        case "update":
+            (async()=>{
+                sql = "UPDATE users SET userName=?, age=? WHERE id=?";
+                
+                sqlVals = [userName, age, id];
+                result = await sqlExec(sql, sqlVals);
+                if(result[0].affectedRows>0) res.send(alertLoc("수정되었습니다.", "/user/li"));
+                else res.send(alertLoc("수정 실패", "/user/li"));
+                // res.json(result);
+                // res.send(alertLoc("데이터가 수정되었습니다.", "/user/li"));
+
     const type = req.params.type;
     switch(type){
         case "save":
