@@ -1,0 +1,4 @@
+.top a, .top a:link{
+    color : inherit;
+    text-decoration: none;
+}
