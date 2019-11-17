@@ -4,23 +4,24 @@ const {sqlExec, ...db} = require(path.join(__dirname, "../modules/mysql-conn"));
 const {alertLoc} = require(path.join(__dirname, "../modules/util-loc"));
 const router = express.Router();
 
-router.get("/", (req, res)=>{
+router.get("/", (req, res, next)=>{
 
     (async()=>{
         let sql = 'select * from rest order by id';
         let result = await sqlExec(sql);
         res.json(result[0]);
     })();
+});
 
-})
 router.post("/", (req, res)=>{
     (async()=>{
         let sql = 'insert into rest set username=?, wdate=?'
         let sqlVals = [username, new Date()];
         let result = await sqlExec(sql, sqlVals);
-        res.json(result[0]);
+        res.redirect("/api");
     })();
-})
+});
+
 router.put("/", (req, res)=>{
     (async()=>{
         let sql = 'update rest set username=? where id=?';
@@ -28,13 +29,18 @@ router.put("/", (req, res)=>{
         let result = await sqlExec(sql, sqlVals);
         res.json(result[0]);
     })();
-})
+});
+
 router.delete("/", (req, res)=>{
     (async()=>{
         let sql = 'delete from rest where id='+req.body.id;
         let result = await sqlExec(sql);
         res.json(result[0]);
     })();
-})
+});
+
+router.get("/err", (req, res, next) => {
+    throw new Error("ERROR!!!");
+});
 
 module.exports = router;
