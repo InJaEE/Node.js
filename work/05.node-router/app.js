@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const path = require("path");
 const fs = require('fs');
+const httpErrors = require('http-errors');
 
 /* node_modules */
 const bodyParser = require("body-parser"); // POST방식으로 접근된 데이터를 req.body로 쉽게 접근할 수 있다.
@@ -19,7 +20,8 @@ app.listen(3000, ()=>{
 
 /* Express Basic Setting */
 app.use("/", express.static(path.join(__dirname, "public")));
-app.use(bodyParser.urlencoded({}));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "views"));
 app.locals.pretty = true;
@@ -32,7 +34,6 @@ var accessLogStream = rfs('access.log', {
     path: logDirectory
   }); 
 app.use(morgan('combined', { stream: accessLogStream }))
-
 
 /* Method-Override Setting */
 app.use(methodOverride('X-HTTP-Method')) //          Microsoft
@@ -51,9 +52,21 @@ const boardRouter = require(path.join(__dirname, "./router/board"));
 const adminRouter = require(path.join(__dirname, "./router/admin"));
 const restRouter = require(path.join(__dirname, "./router/rest"));
 const apiRouter = require(path.join(__dirname, "./router/api"));
+const seqRouter = require(path.join(__dirname, "./router/seq"));
 
 app.use("/board", boardRouter); // board로 접속하면 boardRouter가 역할을 수행한다.
 app.use("/admin", adminRouter);
 app.use("/rest", restRouter);
 app.use("/api", apiRouter);
+app.use("/seq", seqRouter);
 
+/* 예외처리 */
+app.use((err, req, res, next) => {
+  next(httpErrors(404));
+});
+
+app.use((err, req, res, next) => {
+  res.locals.message = err.message;
+  res.locals.error = err;
+  res.render('error');
+});

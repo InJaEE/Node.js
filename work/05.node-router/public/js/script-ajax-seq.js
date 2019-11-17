@@ -1,7 +1,9 @@
 getData();
 function getData() {
-	axios.get("/api").then(function(res){
+	axios.get("/seq").then(function(res){
 		var html = '';
+		// console.log(res);
+		
 		for(var i in res.data) {
 			html += '<div class="p-2 d-flex align-items-center rounded border m-2">';
 			html += '<span class="mr-2 user-id">'+res.data[i].id+'</span>';
@@ -18,7 +20,9 @@ function getData() {
 
 function revData(id) {
 	if(confirm("정말로 삭제하시겠습니까?")) {
-		axios.delete("/api", {data: {id: id}}).then(function(res){
+		axios.delete("/seq", {data: {id: id}}).then(function(res){
+			console.log(res);
+			
 			if(res.status == 200) getData();
 		}).catch(function(err){
 			console.log(err);
@@ -26,17 +30,20 @@ function revData(id) {
 	}
 }
 
-
 function sendData(f) {
 	if(f.username.value.trim() === "") {
 		alert("이름을 입력하세요.");
 		f.username.focus();
 		return false;
 	}
-	axios.post("/api", {
-		username: f.username.value
-	}).then(function(res){
-		if(res.status == 200) getData();
+	axios.post("/seq", {username: f.username.value})
+		.then(function(res){
+		// console.log(res);
+		if(res.status === 200) {
+			getData();
+			document.wrForm.id.value="";
+			document.wrForm.username.value="";
+		}
 	});
 }
 
@@ -53,19 +60,21 @@ function putData(f) {
 		f.username.focus();
 		return false;
 	}
-	axios.put("/api", {
+	axios.put("/seq", {
 		id: f.id.value,
 		username: f.username.value
 	}).then(function(res) {
-		if(res.status == 200) getData();
+		if(res.status == 200){
+			getData();
+			document.upForm.id.value="";
+			document.upForm.username.value="";
+		}
 	});
 }
 
 // axios.post();
 // axios.delete();
 // axios.put();
-
-
 
 /*
 var xhr = new XMLHttpRequest();
