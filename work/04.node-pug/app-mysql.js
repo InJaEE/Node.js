@@ -56,6 +56,7 @@ function userGet(req, res){
                 else res.send(alertLoc("삭제 실패. 관리자에게 문의하세요.", "/user/li"));
             })();
             break;    
+
         case "up":
             (async ()=>{
                 let sql = 'SELECT * FROM users WHERE id=?'
@@ -107,6 +108,17 @@ function userPost(req, res){
                 // res.json(result);
                 // res.send(alertLoc("데이터가 수정되었습니다.", "/user/li"));
 
+    const type = req.params.type;
+    switch(type){
+        case "save":
+            const userName = req.body.userName;
+            const age = req.body.age;
+
+            (async()=>{
+                let sql = "INSERT INTO users SET userName=?, age=?, wdate=?";
+                let sqlVals = [userName, age, isoDate(new Date())]
+                let result = await sqlExec(sql, sqlVals);  
+                res.send(alertLoc("데이터가 저장되었습니다.", "/user/li"));
             })(); // 즉시 실행함수로 async/await 사용
 
             break;
