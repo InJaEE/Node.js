@@ -107,7 +107,8 @@ function userPost(req, res){
                 else res.send(alertLoc("수정 실패", "/user/li"));
                 // res.json(result);
                 // res.send(alertLoc("데이터가 수정되었습니다.", "/user/li"));
-
+            })();
+        }
     const type = req.params.type;
     switch(type){
         case "save":
